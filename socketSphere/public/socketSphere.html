@@ -29,7 +29,7 @@
         </div>
         <div class="chat-panel col">
             <div class="room-header row col-12">
-                <div class="col"><span class="curr-room-text">Current Room</span> <span class="curr-room-num-users">Users <span class="glyphicon glyphicon-user"></span></span></div>
+                <div class="col"><span class="curr-room-text">Current Room</span> <span class="curr-room-num-users">Users <span class="fa-solid fa-user"></span></span></div>
                 <div class="search">
                         <span class="glyphicon glyphicon-search"></span>
                     <input type="text" id="search-box" placeholder="Search" />
@@ -46,6 +46,7 @@
                 <li>
                     <div class="user-image">
                         <img src="https://via.placeholder.com/30" />
+                         <!-- <img src="./logo/user.svg" /> -->
                     </div>
                     <div class="user-message">
                         <div class="user-name-time">rbunch <span>1:25 pm</span></div>
@@ -87,5 +88,6 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="./joinRoom.js"></script>
 <script src="./joinNs.js"></script>
 <script src="/scripts.js"></script>

@@ -2,8 +2,8 @@
 // const password = prompt("Please enter userpassword");
 
 // temp remove the promps to save dev headache
-// const username = "mrJ";
-// const password = "x";
+const username = "mrJ";
+const password = "x";
 
 const socket = io("http://localhost:8080");
 
@@ -11,7 +11,33 @@ const socket = io("http://localhost:8080");
 const nameSpaceSockets = [];
 const listeners = {
   nsChange: [],
+  messageToRoom: [],
 };
+
+//a global variable we can update when the user clicks on a namespace
+//we will use it to broadcast across the app
+let selectedNsId = 0;
+
+//add a submit handler for our form
+document.querySelector("#message-form").addEventListener("submit", (e) => {
+  //keep the browser from submitting
+  e.preventDefault();
+
+  //"value" is use in case of text boxes and "innerHTML" is use in case of html tags.
+  //grab the value from the input box
+  const newMessage = document.querySelector("#user-message").value;
+  document.getElementById("user-message").value = " ";
+  console.log(newMessage, selectedNsId);
+  nameSpaceSockets[selectedNsId].emit("newMessageToRoom", {
+    newMessage,
+    date: Date.now(),
+    avatar: "https://via.placeholder.com/30",
+    username,
+  });
+});
+
+// addListeners job is to manage all listeners added to all namespaces.
+//this prevents listeners being added multiple times and makes life better place for us as developers
 const addListeners = (nsId) => {
   if (!listeners.nsChange[nsId]) {
     nameSpaceSockets[nsId].on("nsChange", (data) => {
@@ -19,8 +45,13 @@ const addListeners = (nsId) => {
       console.log(data);
     });
     listeners.nsChange[nsId] = true;
-  } else {
-    // nothing to do, the listeners has been added
+  }
+  if (!listeners.messageToRoom[nsId]) {
+    // add the nsId listener to this namespace!
+    nameSpaceSockets[nsId].on("messageToRoom", (messageObj) => {
+      console.log(messageObj);
+    });
+    listeners.messageToRoom[nsId] = true;
   }
 };
 
