@@ -5,7 +5,18 @@
 const username = "mrJ";
 const password = "x";
 
-const socket = io("http://localhost:8080");
+const clientOptions = {
+  query: {
+    username,
+    password,
+  },
+  auth: {
+    username,
+    password,
+  },
+};
+
+const socket = io("http://localhost:8080", clientOptions);
 
 //creating an array of the namsSpaceSockets to store the connections
 const nameSpaceSockets = [];
@@ -26,14 +37,16 @@ document.querySelector("#message-form").addEventListener("submit", (e) => {
   //"value" is use in case of text boxes and "innerHTML" is use in case of html tags.
   //grab the value from the input box
   const newMessage = document.querySelector("#user-message").value;
-  document.getElementById("user-message").value = " ";
+
   console.log(newMessage, selectedNsId);
   nameSpaceSockets[selectedNsId].emit("newMessageToRoom", {
     newMessage,
     date: Date.now(),
     avatar: "https://via.placeholder.com/30",
     username,
+    selectedNsId,
   });
+  document.getElementById("user-message").value = " ";
 });
 
 // addListeners job is to manage all listeners added to all namespaces.
@@ -50,6 +63,10 @@ const addListeners = (nsId) => {
     // add the nsId listener to this namespace!
     nameSpaceSockets[nsId].on("messageToRoom", (messageObj) => {
       console.log(messageObj);
+
+      document.querySelector("#messages").innerHTML +=
+        buildMessageHtml(messageObj); // object object
+      //Whenever we try and concatenate an object to a string JavaScript has no idea what we are trying to do
     });
     listeners.messageToRoom[nsId] = true;
   }
