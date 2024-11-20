@@ -20,16 +20,16 @@ app.get("/change-ns", (req, res) => {
   res.json(namespaces[0]);
 });
 
-io.use((socket, next) => {
-  const jwt = socket.handshake.query.jwt;
-  console.log(jwt);
-  if (1) {
-    next();
-  } else {
-    console.log("GoodBye");
-    socket.disconnect();
-  }
-});
+// io.use((socket, next) => {
+//   const jwt = socket.handshake.query.jwt;
+//   console.log(jwt);
+//   if (1) {
+//     next();
+//   } else {
+//     console.log("GoodBye");
+//     socket.disconnect();
+//   }
+// });
 
 io.on("connection", (socket) => {
   // const username=socket.handshake.query.username;

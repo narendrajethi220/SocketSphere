@@ -1,9 +1,9 @@
-// const username = prompt("Please enter username");
-// const password = prompt("Please enter userpassword");
+const username = prompt("Please enter username");
+const password = prompt("Please enter userpassword");
 
 // temp remove the promps to save dev headache
-const username = "mrJ";
-const password = "x";
+// const username = "mrJ";
+// const password = "x";
 
 const clientOptions = {
   query: {
